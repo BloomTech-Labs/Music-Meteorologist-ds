@@ -14,15 +14,18 @@ import pickle
 #import io
 import numpy as np
 import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
 # TODO Fix robots.txt
 app = Flask(__name__)
-
+client_credentials_manager = SpotifyClientCredentials(client_id='200f9f0be54b4daab1c2561098b3891a', client_secret='936688039db4402084f44eda09f17ffe')
 client_credentials_manager = client_credentials_manager
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 #@app.route("/api/", methods=['GET', 'POST'])
-df = pd.read_csv('SpotifyAudioFeaturesApril2019.csv')
-
+df = pd.read_csv('songmetadata_1.csv')
 array = df.values
+dfy = pd.read_csv('songtitles_1.csv')
+
 def cosine_similarity(a, b):
   dot_product = np.dot(a,b)
   norm_a = np.linalg.norm(a)
@@ -39,17 +42,12 @@ def all_similarities(a, dfy):
 
 @app.route("/")
 def default():
-    body_unicode = request.data.decode('utf-8')
-    print(request.get_data())
-    #body = json.loads(body_unicode)
-    content = request.get_data()
+    song = array[1549]
+
     similarities = all_similarities(song, dfy)
-    sorted_list: sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:51]
+    sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:51]
     json_dict = {"songs": sorted_list}
-    return sorted_list
-@app.route("/")
-def home():
-    return render_template("index.html")
+    return str(json_dict)
 
 if __name__ == "__main__":
     app.run()
