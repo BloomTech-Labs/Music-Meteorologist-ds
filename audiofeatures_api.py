@@ -10,7 +10,7 @@ import requests
 import pandas as pd
 import json
 
-import pickle
+#import pickle
 #import io
 import numpy as np
 import spotipy
@@ -45,7 +45,7 @@ def default():
     song = array[1549]
 
     similarities = all_similarities(song, dfy)
-    sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:51]
+    sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:3]
     json_dict = {"songs": sorted_list}
     return str(json_dict)
 
