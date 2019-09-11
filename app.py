@@ -16,6 +16,7 @@ import numpy as np
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from flask import jsonify
+from pandas.io.json import json_normalize
 
 # TODO Fix robots.txt
 app = Flask(__name__)
@@ -48,9 +49,10 @@ def default():
     # body = json.loads(body_unicode)
     #content = request.get_data()
     content = request.get_json(silent=True)
+    song = pd.DataFrame.from_dict(json_normalize(content['audio_features']), orient='columns')
 
     #song = array[1549]
-    song = content['audio_features']
+    #song = content['audio_features']
     similarities = all_similarities(song, dfy)
     sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:3]
     json_dict = {"songs": sorted_list}
