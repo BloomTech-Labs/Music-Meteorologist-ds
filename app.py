@@ -15,6 +15,7 @@ import json
 import numpy as np
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from flask import jsonify
 
 # TODO Fix robots.txt
 app = Flask(__name__)
@@ -36,18 +37,24 @@ def all_similarities(a, dfy):
   similar_songs = []
   for spotify_song, metadata in zip(array, dfy.values):
     similarity = cosine_similarity(a, spotify_song)
-    similar_songs.append({'similarity': similarity, 'values': metadata})
+    similar_songs.append({'similarity': similarity, 'values': metadata['id']})
   return similar_songs
 
 
 @app.route("/")
 def default():
-    song = array[1549]
-
+    body_unicode = request.data.decode('utf-8')
+    print(request.get_data())
+    # body = json.loads(body_unicode)
+    content = request.get_data()
+    #song = array[1549]
+    song = content['audio_features']
     similarities = all_similarities(song, dfy)
     sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:3]
     json_dict = {"songs": sorted_list}
-    return str(json_dict)
+    data = json.dumps(json_dict)
+    return jsonify(data)
+
 
 if __name__ == "__main__":
     app.run()
