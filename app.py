@@ -77,7 +77,7 @@ def default():
     #song = content['audio_features']
     similarities = all_similarities(song, dfy)
     sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:3]
-    json_dict = {"songs": sorted_list}
+    json_dict = {"songs": str(sorted_list)}
     data = json.dumps(json_dict)
     return jsonify(data)
 
