@@ -24,9 +24,26 @@ client_credentials_manager = SpotifyClientCredentials(client_id='200f9f0be54b4da
 client_credentials_manager = client_credentials_manager
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 #@app.route("/api/", methods=['GET', 'POST'])
-df = pd.read_csv('songmetadata_1.csv')
-array = df.values
-dfy = pd.read_csv('songtitles_1.csv')
+#df = pd.read_csv('songmetadata_1.csv')
+#array = df.values
+#dfy = pd.read_csv('songtitles_1.csv')
+df = pd.read_csv('SpotifyAudioFeaturesApril2019.csv')
+df_other = pd.read_csv('SpotifyAudioFeaturesNov2018.csv')
+df = df.drop('popularity', 1)
+df = df.drop('duration_ms', 1)
+
+df = df.dropna()
+
+df_other = df_other.drop('popularity', 1)
+df_other = df_other.drop('duration_ms', 1)
+
+df_other = df_other.dropna()
+df = pd.concat([df,df_other]).drop_duplicates().reset_index(drop=True)
+dfy = df[['artist_name','track_id', 'track_name']]
+df2 = df.drop('artist_name', 1)
+df2 = df2.drop('track_id', 1)
+df2 = df2.drop('track_name', 1)
+array = df2.values
 
 def cosine_similarity(a, b):
   dot_product = np.dot(a,b)
