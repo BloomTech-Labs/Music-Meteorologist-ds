@@ -49,8 +49,8 @@ def default():
     # body = json.loads(body_unicode)
     #content = request.get_data()
     content = request.get_json(silent=True)
-    song = pd.DataFrame.from_dict(json_normalize(content['audio_features']), orient='columns')
-
+    dataframe = pd.DataFrame.from_dict(json_normalize(content['audio_features']), orient='columns')
+    song = dataframe.values
     #song = array[1549]
     #song = content['audio_features']
     similarities = all_similarities(song, dfy)
