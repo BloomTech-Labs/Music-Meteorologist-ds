@@ -41,12 +41,14 @@ def all_similarities(a, dfy):
   return similar_songs
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def default():
-    body_unicode = request.data.decode('utf-8')
-    print(request.get_data())
+    #body_unicode = request.data.decode('utf-8')
+    #print(request.get_data())
     # body = json.loads(body_unicode)
-    content = request.get_data()
+    #content = request.get_data()
+    content = request.get_json(silent=True)
+
     #song = array[1549]
     song = content['audio_features']
     similarities = all_similarities(song, dfy)
