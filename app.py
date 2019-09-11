@@ -61,25 +61,21 @@ def all_similarities(a, dfy):
 
 @app.route("/", methods=['GET', 'POST'])
 def default():
-    #body_unicode = request.data.decode('utf-8')
-    #print(request.get_data())
-    # body = json.loads(body_unicode)
-    #content = request.get_data()
+
     content = request.get_json(silent=True)
-    print("song", content)
+    #print("song", content)
     dataframe = pd.DataFrame.from_dict(json_normalize(content['audio_features']), orient='columns')
-    print("dataframe", dataframe)
+    #print("dataframe", dataframe)
 
     song = dataframe.values
-    print("content", song)
+    #print("content", song)
 
     #song = array[1549]
-    #song = content['audio_features']
     similarities = all_similarities(song, dfy)
     sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:3]
-    json_dict = {"songs": str(sorted_list)}
-    data = json.dumps(json_dict)
-    return jsonify(data)
+    json_dict = {"songs": sorted_list}
+    #data = json.dumps(json_dict)
+    return jsonify(json_dict)
 
 
 if __name__ == "__main__":
