@@ -55,19 +55,19 @@ def all_similarities(a, dfy):
   similar_songs = []
   for spotify_song, metadata in zip(array, dfy.values):
     similarity = cosine_similarity(a, spotify_song)
-    similar_songs.append({'similarity': similarity, 'values': metadata[1]})
+    similar_songs.append({'similarity': similarity.tolist(), 'values': metadata[1]})
   return similar_songs
 
 
 @app.route("/", methods=['GET', 'POST'])
 def default():
 
-    #content = request.get_json(silent=True)
-    #dataframe = pd.DataFrame.from_dict(json_normalize(content['audio_features']), orient='columns')
+    content = request.get_json(silent=True)
+    dataframe = pd.DataFrame.from_dict(json_normalize(content['audio_features']), orient='columns')
 
-    #song = dataframe.values
+    song = dataframe.values
 
-    song = array[1549]
+    #song = array[1549]
     similarities = all_similarities(song, dfy)
     sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[1:3]
     json_dict = {"songs": sorted_list}
