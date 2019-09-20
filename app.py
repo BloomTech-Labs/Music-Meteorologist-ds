@@ -55,7 +55,7 @@ def all_similarities(a, dfy):
   similar_songs = []
   for spotify_song, metadata in zip(array, dfy.values):
     similarity = cosine_similarity(a, spotify_song)
-    similar_songs.append({'similarity': similarity.tolist(), 'values': metadata[1]})
+    similar_songs.append({'similarity': ''.join(similarity.tolist()), 'values': metadata[1]})
   return similar_songs
 
 
