@@ -69,7 +69,7 @@ def default():
 
     #song = array[1549]
     similarities = all_similarities(song, dfy)
-    sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[:3]
+    sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[:20]
     json_dict = {"songs": sorted_list}
     #data = json.dumps(json_dict)
     return jsonify(json_dict)
