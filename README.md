@@ -1,6 +1,6 @@
 POST https://music-meteorologist-ds.herokuapp.com/
 
-adding machine learning model branch
+updating machine learning branch
 
 ***INPUT***
 ```json
