@@ -109,4 +109,5 @@ bin/
 
 # large datasets
 
-/data/discogs_20081014_releases.xml
+/final_data/DF_v1.pkl
+
