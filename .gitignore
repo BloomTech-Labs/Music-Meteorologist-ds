@@ -106,3 +106,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+data_collection/env_vars.py
+data_collection/final_data/DF_v1.pkl
