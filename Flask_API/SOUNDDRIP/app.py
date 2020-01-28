@@ -16,8 +16,9 @@ from pandas.io.json import json_normalize
 def create_app():
   # Spotify Api stuff
   app = Flask(__name__)
-  client_credentials_manager = SpotifyClientCredentials(client_id='200f9f0be54b4daab1c2561098b3891a', 
-                                                        client_secret='936688039db4402084f44eda09f17ffe')
+  client_credentials_manager = SpotifyClientCredentials(
+    client_id='200f9f0be54b4daab1c2561098b3891a', 
+    client_secret='936688039db4402084f44eda09f17ffe')
   client_credentials_manager = client_credentials_manager
   sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
@@ -55,21 +56,30 @@ def create_app():
     similar_songs = []
     for spotify_song, metadata in zip(array, dfy.values):
       similarity = cosine_similarity(a[0], spotify_song)
-      similar_songs.append({'similarity': similarity, 'values': metadata[1]})
+      similar_songs.append({'similarity': similarity,
+                            'values': metadata[1]})
     return similar_songs
 
   # Main Default page
-  @app.route("/", methods=['GET', 'POST'])
-  def default():
+  @app.route("/")
+    # empty homepae used for testing
+  def root():
+      return """Hello, I am working right now. send your request to {/request}"""
+
+  @app.route("/request", methods=['GET', 'POST'])
+  def sim20():
 
       content = request.get_json(silent=True)
-      dataframe = pd.DataFrame.from_dict(json_normalize(content['audio_features']), orient='columns')
+      dataframe = pd.DataFrame.from_dict(
+        json_normalize(content['audio_features']),
+                                orient='columns')
 
       song = dataframe.values
 
       #song = array[1549]
       similarities = all_similarities(song, dfy)
-      sorted_list = sorted(similarities, key=lambda i: i['similarity'], reverse=True)[:20]
+      sorted_list = sorted(similarities, key=lambda i: i['similarity'], 
+                                                         reverse=True)[:20]
       json_dict = {"songs": sorted_list}
       #data = json.dumps(json_dict)
       return jsonify(json_dict), print('yay')
