@@ -10,6 +10,8 @@ pandas = "*"
 flask = "*"
 numpy = "*"
 spotipy = "*"
+gunicorn = "*"
+heroku3 = "*"
 
 [requires]
 python_version = "3.7"
