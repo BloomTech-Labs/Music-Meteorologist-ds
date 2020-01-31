@@ -6,12 +6,12 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-pandas = "*"
 flask = "*"
-numpy = "*"
-spotipy = "*"
 gunicorn = "*"
 heroku3 = "*"
+scikit-learn = "*"
+sklearn = "*"
+pandas = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
