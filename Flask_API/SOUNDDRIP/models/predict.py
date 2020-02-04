@@ -4,11 +4,10 @@ from flask import request
 import pandas as pd
 from pandas.io.json import json_normalize
 from flask import jsonify
+from joblib import load
+import pickle
 
-
-
-
-def predict(content):
+def predictfunc(content):
     similar_songs = []
     print('Loading dataframe...')
     dataframe = pd.DataFrame.from_dict(
@@ -16,18 +15,20 @@ def predict(content):
                                 orient='columns')
     print('Dataframe Object Created')
     print('Loading pickled scaler...')
-    scaler = pickle.load(open('models/scaler.pkl', 'rb'))
+    scaler = load('SOUNDDRIP/models/scalar2.joblib')
     print('Pickled scaler loaded')
     print('Scaling dataframe object...')
     dataframe_scaled = scaler.transform(dataframe)
     print('Dataframe scaled')
     print('Loading pickled model...')
-    model = pickle.load(open('./models/knn_model_v1.pkl', 'rb'))
+    model = load('SOUNDDRIP/models/model2.joblib')
     print('Model loaded')
     results = model.kneighbors([dataframe_scaled][0])[1]
     print('Prediction executed')
     print('song_id_list loading...')
-    song_id_list = pickle.load(open('Flask_API/SOUNDDRIP/data/song_id_list.pkl', 'rb'))
+    #song_id_list = load('SOUNDDRIP/data/song_id_list2.joblib') 
+    # (added 3.4 sec to run time)
+    song_id_list = pickle.load(open('SOUNDDRIP/data/song_id_list2.pkl', 'rb'))
     print('song_id_list loaded')
 
     print('beginning for loop...')
