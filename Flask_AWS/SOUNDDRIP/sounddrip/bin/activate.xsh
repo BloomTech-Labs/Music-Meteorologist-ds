@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/Users/user/Documents/GitHub/Lambda/labs/Music-Meteorologist-ds/Flask_AWS/SOUNDDRIP/sounddrip"
+$VIRTUAL_ENV = r"/Users/alexanderbennett/Desktop/repos/Music-Meteorologist-ds/Flask_AWS/SOUNDDRIP/sounddrip"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

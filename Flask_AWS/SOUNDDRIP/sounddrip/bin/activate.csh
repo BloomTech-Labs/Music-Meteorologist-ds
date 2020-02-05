@@ -10,7 +10,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/Users/user/Documents/GitHub/Lambda/labs/Music-Meteorologist-ds/Flask_AWS/SOUNDDRIP/sounddrip"
+setenv VIRTUAL_ENV "/Users/alexanderbennett/Desktop/repos/Music-Meteorologist-ds/Flask_AWS/SOUNDDRIP/sounddrip"
 
 set _OLD_VIRTUAL_PATH="$PATH:q"
 setenv PATH "$VIRTUAL_ENV:q/bin:$PATH:q"

@@ -1,3 +1,5 @@
+import spotipy
+import spotipy.util as util
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from flask import request
@@ -7,12 +9,41 @@ from flask import jsonify
 from joblib import load
 import pickle
 
+
+def get_id(token):
+    sp = spotipy.Spotify(auth=token)
+    results = sp.current_user_saved_tracks()
+    song_id = results['items'][0]['track']['id']
+    return song_id
+
+
+def get_features(song_id):
+    results_dict = sp.audio_features(song_id)[0]
+    audio_features = {
+        "audio_features": {
+            key: results_dict[key] for key in results_dict.keys() & {
+                'danceability',
+                'energy',
+                'key',
+                'loudness',
+                'mode',
+                'speechiness',
+                'acousticness',
+                'instrumentalness',
+                'liveness',
+                'valence',
+                'tempo',
+                'time_signature'}}}
+
+    return audio_features
+
+
 def predictfunc(content):
     similar_songs = []
     print('Loading dataframe...')
     dataframe = pd.DataFrame.from_dict(
         json_normalize(content['audio_features']),
-                                orient='columns')
+        orient='columns')
     print('Dataframe Object Created')
     print('Loading pickled scaler...')
     scaler = load('./models/scalar2.joblib')
@@ -26,7 +57,7 @@ def predictfunc(content):
     results = model.kneighbors([dataframe_scaled][0])[1]
     print('Prediction executed')
     print('song_id_list loading...')
-    #song_id_list = load('./data/song_id_list2.joblib') 
+    #song_id_list = load('./data/song_id_list2.joblib')
     # (added 3.4 sec to run time)
     song_id_list = pickle.load(open('./data/song_id_list2.pkl', 'rb'))
     print('song_id_list loaded')
