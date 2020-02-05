@@ -10,14 +10,15 @@ from joblib import load
 import pickle
 
 
-def get_id(token):
-    sp = spotipy.Spotify(auth=token)
+def get_id(sp):
+    # sp = spotipy.Spotify(auth=token)
     results = sp.current_user_saved_tracks()
     song_id = results['items'][0]['track']['id']
     return song_id
 
 
-def get_features(song_id):
+def get_features(song_id,sp):
+    # sp = spotipy.Spotify(auth=token)
     results_dict = sp.audio_features(song_id)[0]
     audio_features = {
         "audio_features": {

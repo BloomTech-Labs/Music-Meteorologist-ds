@@ -57,7 +57,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/alexanderbennett/Desktop/repos/Music-Meteorologist-ds/Flask_AWS/SOUNDDRIP/sounddrip"
+set -gx VIRTUAL_ENV "/Users/user/Documents/GitHub/Lambda/labs/Music-Meteorologist-ds/Flask_AWS/SOUNDDRIP/sounddrip"
 
 # https://github.com/fish-shell/fish-shell/issues/436 altered PATH handling
 if test (echo $FISH_VERSION | tr "." "\n")[1] -lt 3
