@@ -119,3 +119,4 @@ data_collection/for_backend/song_list4.sqlite3
 data_collection/final_data/DF_v2.pkl
 data_collection/song_list_v2 copy.db
 data_collection/song_list_v2.db
+data_collection/song_list_v2_backup.db
