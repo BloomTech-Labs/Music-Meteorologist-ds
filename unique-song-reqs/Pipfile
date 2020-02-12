@@ -9,6 +9,7 @@ verify_ssl = true
 psycopg2 = "*"
 pandas = "*"
 ipykernel = "*"
+spotipy = "*"
 
 [requires]
 python_version = "3.7"
