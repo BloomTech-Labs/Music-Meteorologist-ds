@@ -5,7 +5,11 @@ from flask import (Flask, render_template, request,
                    jsonify)
 from flask_cors import CORS
 
+
+
 from models.predict import predictfunc, get_id, get_features, instantiate_sp
+
+
 
 
 # Create Flask app. Should use "application" as variable name for AWS
