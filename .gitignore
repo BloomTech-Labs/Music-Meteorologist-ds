@@ -120,3 +120,6 @@ data_collection/final_data/DF_v2.pkl
 data_collection/song_list_v2 copy.db
 data_collection/song_list_v2.db
 data_collection/song_list_v2_backup.db
+data_collection/final_data/DF_v3.pkl
+model_notebooks/DF_v3.pkl
+data_collection/song_list_v3.db
