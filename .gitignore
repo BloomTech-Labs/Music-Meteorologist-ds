@@ -122,3 +122,5 @@ data_collection/song_list_v2.db
 data_collection/song_list_v2_backup.db
 data_collection/final_data/DF_v3.pkl
 data_collection/song_list_v3.db
+model_notebooks/DF_v3.pkl
+data_collection/final_data/DF_v4.pkl
