@@ -118,3 +118,4 @@ data_collection/final_data/DF_v3.pkl
 data_collection/final_data/DF_v4.pkl
 data_collection/song_list_v3.db
 model_notebooks/DF_genres_hashed.pkl
+model_notebooks/data/X_array.pkl
