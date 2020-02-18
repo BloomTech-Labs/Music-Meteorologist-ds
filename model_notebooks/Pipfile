@@ -15,6 +15,7 @@ gunicorn = "*"
 heroku3 = "*"
 matplotlib = "*"
 seaborn = "*"
+spotipy = "*"
 
 [requires]
 python_version = "3.7"
