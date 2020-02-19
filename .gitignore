@@ -117,3 +117,11 @@ data_collection/final_data/DF_v2.pkl
 data_collection/song_list_v2.db
 data_collection/final_data/DF_v3.pkl
 data_collection/song_list_v3.db
+model_notebooks/DF_v4.pkl
+model_notebooks/DF_genres_hashed.pkl
+model_notebooks/DBSCAN_Model.pkl
+model_notebooks/data/X_array.pkl
+model_notebooks/data/song_list_v5_hashed.pkl
+model_notebooks/data/song_list_v4_hashed.pkl
+model_notebooks/data/DF_Genres_List_v1.pkl
+data_collection/final_data/DF_v4.pkl
