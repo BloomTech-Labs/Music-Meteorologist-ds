@@ -3,12 +3,14 @@
 from flask import (Flask, render_template, request,
                    make_response,
                    jsonify)
+from flask_cors import CORS
 
 from models.predict import predictfunc, get_id, get_features, instantiate_sp
 
 
 # Create Flask app. Should use "application" as variable name for AWS
 application = Flask(__name__)
+CORS(application)
 
 
 
