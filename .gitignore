@@ -93,8 +93,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-spotipy/spotipy_test/
-Flask_AWS/SOUNDDRIP/sounddrip/
 
 # Spyder project settings
 .spyderproject
@@ -111,9 +109,9 @@ Flask_AWS/SOUNDDRIP/sounddrip/
 
 data_collection/env_vars.py
 data_collection/final_data/DF_v1.pkl
-Flask_AWS/SOUNDDRIP/flask_app.zip
 Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app.zip
 data_collection/final_data/DF_v2.pkl
 data_collection/song_list_v2.db
 data_collection/final_data/DF_v3.pkl
 data_collection/song_list_v3.db
+Flask_AWS/SOUNDDRIP/sounddrip/
