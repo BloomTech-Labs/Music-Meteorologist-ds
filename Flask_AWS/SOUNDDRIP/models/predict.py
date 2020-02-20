@@ -2,7 +2,6 @@ import spotipy
 import spotipy.util as util
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from flask import request
 import pandas as pd
 from pandas.io.json import json_normalize
 from flask import jsonify

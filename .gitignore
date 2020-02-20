@@ -131,3 +131,6 @@ model_notebooks/song_list_v4_hashed.pkl
 model_notebooks/song_list_v4_hashed (1).pkl
 model_notebooks/DBSCAN_Model.pkl
 Flask_AWS/SOUNDDRIP/sounddrip/
+model_notebooks/data/song_id_array3.pkl
+model_notebooks/data/song_list_v4_hashed(1).pkl
+model_notebooks/model3.joblib
