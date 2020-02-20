@@ -110,3 +110,25 @@ spotipy/spotipy_test/
 
 data_collection/env_vars.py
 data_collection/final_data/DF_v1.pkl
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app.zip
+data_collection/song_list.db
+data_collection/song_list copy.db
+data_collection/for_backend/song_list4.sqlite3
+data_collection/final_data/DF_v2.pkl
+data_collection/song_list_v2 copy.db
+data_collection/song_list_v2.db
+data_collection/song_list_v2_backup.db
+data_collection/final_data/DF_v3.pkl
+model_notebooks/DF_v3.pkl
+data_collection/song_list_v3.db
+data_collection/final_data/DF_v4.pkl
+model_notebooks/DF_genres_hashed.pkl
+model_notebooks/DF_v4.pkl
+model_notebooks/data/X_array.pkl
+model_notebooks/data/song_list_v4_hashed.pkl
+model_notebooks/data/song_list_v5_hashed.pkl
+model_notebooks/data/DF_Genres_List_v1.pkl
+model_notebooks/song_list_v4_hashed.pkl
+model_notebooks/song_list_v4_hashed (1).pkl
+model_notebooks/DBSCAN_Model.pkl
+Flask_AWS/SOUNDDRIP/sounddrip/
