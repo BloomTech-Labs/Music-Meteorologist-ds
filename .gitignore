@@ -137,3 +137,5 @@ model_notebooks/model3.joblib
 model_notebooks/data/model3.joblib
 model_notebooks/data/genres_array.pkl
 model_notebooks/data/genres_array_2.pkl
+*.pkl
+Flask_notebooks/models/model4.joblib
