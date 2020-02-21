@@ -139,3 +139,11 @@ model_notebooks/data/genres_array.pkl
 model_notebooks/data/genres_array_2.pkl
 *.pkl
 Flask_notebooks/models/model4.joblib
+Flask_notebooks/models/scalar2-Copy1.joblib
+Flask_notebooks/models/scalar2.joblib
+model_notebooks/data/model4.joblib
+model_notebooks/data/model5.joblib
+*.joblib
+*.joblib
+Flask_notebooks/data/song_id_list2(1).joblib
+Flask_notebooks/models/scalar2-Copy1.joblib
