@@ -151,4 +151,3 @@ Flask_notebooks/env_vars.py
 Flask_notebooks/models/model2.joblib
 model_notebooks/knn_model_v1.ipynb
 model_notebooks/knn_model_v3_with_genre_filtering.ipynb
-Flask_AWS/SOUNDDRIP/flask_app.zip
