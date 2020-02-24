@@ -1,0 +1,5 @@
+POSTGRES_ADDRESS =  'sounddrip-user-table-dev.cuxogj7vdjwn.us-east-1.rds.amazonaws.com'
+POSTGRES_PORT =  '5432'
+POSTGRES_USERNAME =  'postgres'
+POSTGRES_PASSWORD =  's0unddr1p'
+POSTGRES_DBNAME = 'postgres'
