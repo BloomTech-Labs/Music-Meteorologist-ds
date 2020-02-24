@@ -16,13 +16,8 @@ def prediction():
   content = request.get_json(silent=True)
   token = content["token"]
   SdObj = Sound_Drip(token)
-  song_id,source_genre = SdObj.get_user_song_id_source_genre()
-  acoustical_features = SdObj.get_acoustical_features(song_id)
-  popularity = SdObj.get_popularity(song_id)
-  song_features_df = SdObj.create_feature_object(popularity, acoustical_features)
-  results = SdObj.get_results(song_features_df)
-  filtered_list = SdObj.filter_model(results,source_genre)
-  return jsonify(SdObj.song_id_prediction_output(filtered_list)),print('JSON Object Returned')
+  song_id_predictions = SdObj.song_id_predictions 
+  return jsonify(song_id_predictions),print('JSON Object Returned')
 
 
 # Slider endpoint

@@ -8,14 +8,19 @@ from joblib import load, dump
 import pickle
 import numpy as np
 
-from env_vars.env_vars import CLIENT_ID, CLIENT_SECRET
-
 
 class Sound_Drip:
     
     def __init__(self, token):
         self.token = token
         self.sp = spotipy.Spotify(auth=self.token)
+        self.song_id,self.source_genre = self.get_user_song_id_source_genre()
+        self.acoustical_features = self.get_acoustical_features(self.song_id)
+        self.popularity = self.get_popularity(self.song_id)
+        self.song_features_df =  self.create_feature_object(self.popularity,self.acoustical_features)
+        self.results = self.get_results(self.song_features_df)
+        self.filtered_list = self.filter_model(self.results,self.source_genre)
+        self.song_id_predictions = self.song_id_prediction_output(self.filtered_list) 
 
     def get_user_song_id_source_genre(self):
         results = self.sp.current_user_saved_tracks()
@@ -127,7 +132,6 @@ class Sound_Drip:
         json_dict = {"songs": similar_songs}
         print("Results returned")
         return json_dict
-
 
 
 class Slider(Sound_Drip):
