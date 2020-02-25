@@ -93,8 +93,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-spotipy/spotipy_test/
-Flask_AWS/SOUNDDRIP/sounddrip/
 
 # Spyder project settings
 .spyderproject
@@ -111,5 +109,46 @@ Flask_AWS/SOUNDDRIP/sounddrip/
 
 data_collection/env_vars.py
 data_collection/final_data/DF_v1.pkl
-Flask_AWS/SOUNDDRIP/flask_app.zip
 Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app.zip
+data_collection/song_list.db
+data_collection/song_list copy.db
+data_collection/for_backend/song_list4.sqlite3
+data_collection/final_data/DF_v2.pkl
+data_collection/song_list_v2 copy.db
+data_collection/song_list_v2.db
+data_collection/song_list_v2_backup.db
+data_collection/final_data/DF_v3.pkl
+model_notebooks/DF_v3.pkl
+data_collection/song_list_v3.db
+data_collection/final_data/DF_v4.pkl
+model_notebooks/DF_genres_hashed.pkl
+model_notebooks/DF_v4.pkl
+model_notebooks/data/X_array.pkl
+model_notebooks/data/song_list_v4_hashed.pkl
+model_notebooks/data/song_list_v5_hashed.pkl
+model_notebooks/data/DF_Genres_List_v1.pkl
+model_notebooks/song_list_v4_hashed.pkl
+model_notebooks/song_list_v4_hashed (1).pkl
+model_notebooks/DBSCAN_Model.pkl
+Flask_AWS/SOUNDDRIP/sounddrip/
+model_notebooks/data/song_id_array3.pkl
+model_notebooks/data/song_list_v4_hashed(1).pkl
+model_notebooks/model3.joblib
+model_notebooks/data/model3.joblib
+model_notebooks/data/genres_array.pkl
+model_notebooks/data/genres_array_2.pkl
+*.pkl
+Flask_notebooks/models/model4.joblib
+Flask_notebooks/models/scalar2-Copy1.joblib
+Flask_notebooks/models/scalar2.joblib
+model_notebooks/data/model4.joblib
+model_notebooks/data/model5.joblib
+*.joblib
+*.joblib
+Flask_notebooks/data/song_id_list2(1).joblib
+Flask_notebooks/models/scalar2-Copy1.joblib
+Flask_notebooks/env_vars.py
+Flask_notebooks/models/model2.joblib
+model_notebooks/knn_model_v1.ipynb
+model_notebooks/knn_model_v3_with_genre_filtering.ipynb
+Flask_AWS/SOUNDDRIP/flask_app.zip
