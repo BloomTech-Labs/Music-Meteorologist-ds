@@ -17,7 +17,8 @@ def prediction():
   token = content["token"]
   SdObj = Sound_Drip(token)
   song_id_predictions = SdObj.song_id_predictions 
-  return jsonify(song_id_predictions),print('JSON Object Returned')
+  return song_id_predictions,print('JSON OBJECT Returned')
+  # return jsonify(song_id_predictions),print('JSON Object Returned')
 
 
 # Slider endpoint
@@ -27,7 +28,8 @@ def slider_prediction():
   content = request.get_json(silent=True)
   slider = Slider(content)
   slider_predictions = slider.slider_predictions
-  return jsonify(slider_predictions, print('Slider JSON Object Returned'))
+  return slider_predictions, print("JSON Slider Object Returned")
+  # return jsonify(slider_predictions, print('Slider JSON Object Returned'))
 
 
 @application.route("/")
