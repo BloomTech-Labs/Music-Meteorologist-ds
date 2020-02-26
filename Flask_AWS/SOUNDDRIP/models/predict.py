@@ -8,7 +8,7 @@ from joblib import load, dump
 import pickle
 import numpy as np
 import psycopg2 as ps
-from misc import env_vars
+from misc.env_vars import *
 
 class Sound_Drip:
     
@@ -177,6 +177,8 @@ class SoundDb(Sound_Drip):
               password=POSTGRES_PASSWORD,
               port=POSTGRES_PORT)
         return conn
+
+    
 
     
 
