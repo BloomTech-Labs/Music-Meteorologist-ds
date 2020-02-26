@@ -7,7 +7,8 @@ from pandas.io.json import json_normalize
 from joblib import load, dump
 import pickle
 import numpy as np
-
+import psycopg2 as ps
+from misc import env_vars
 
 class Sound_Drip:
     
@@ -160,3 +161,31 @@ class Slider(Sound_Drip):
         return results[0]
 
 
+
+class SoundDb(Sound_Drip):
+
+    def __init__(self):
+        self.conn = self.connect()
+        self.cur = self.conn.cursor()
+        self.song_id_predictions = self.song_id_predictions
+        self.song_id_list = self.get_song_id_list(self.song_id_predictions)
+
+    def connect(self):
+        conn = ps.connect(host=POSTGRES_ADDRESS,
+              database=POSTGRES_DBNAME,
+              user=POSTGRES_USERNAME,
+              password=POSTGRES_PASSWORD,
+              port=POSTGRES_PORT)
+        return conn
+
+    
+
+    def get_song_id_list(self,song_id_predictions):
+        song_list = []
+        for song in self.song_id_predictions["songs"]:
+            song_list.append(song["values"])
+        return song_list
+
+         
+
+    
