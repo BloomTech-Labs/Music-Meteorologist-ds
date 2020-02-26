@@ -133,8 +133,7 @@ model_notebooks/song_list_v4_hashed (1).pkl
 model_notebooks/DBSCAN_Model.pkl
 Flask_AWS/SOUNDDRIP/sounddrip/
 
-Flask_AWS/SOUNDDRIP/models/slider_model6.joblib
-Flask_AWS/SOUNDDRIP/models/scalar3.joblib
-Flask_AWS/SOUNDDRIP/models/model5.joblib
-Flask_AWS/SOUNDDRIP/data/song_id_array3.pkl
-Flask_AWS/SOUNDDRIP/data/genres_array_2.pkl
+
+
+*.pkl
+*.joblib
