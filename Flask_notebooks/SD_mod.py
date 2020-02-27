@@ -1,27 +1,41 @@
+import psycopg2 as ps
+from env_vars import *
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy.util as util
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler, Normalizer
 import pandas as pd
 from pandas.io.json import json_normalize
-from joblib import load, dump
+from flask import jsonify
+from joblib import load
 import pickle
 import numpy as np
-import psycopg2 as ps
-from misc.env_vars import *
+from flask import request
+from joblib import dump
+from joblib import load
+import pandas as pd
+from importlib import reload
+import sys
+
+from env_vars import * 
+
 
 class Sound_Drip:
     
     def __init__(self, token):
         self.token = token
         self.sp = spotipy.Spotify(auth=self.token)
+        self.user_id,self.display_name = self.get_user_ids()
+        self.stale_results_list = self.get_stale_results()
         self.song_id,self.source_genre = self.get_user_song_id_source_genre()
         self.acoustical_features = self.get_acoustical_features(self.song_id)
         self.popularity = self.get_popularity(self.song_id)
         self.song_features_df =  self.create_feature_object(self.popularity,self.acoustical_features)
         self.results = self.get_results(self.song_features_df)
         self.filtered_list = self.filter_model(self.results,self.source_genre)
-        self.song_id_predictions = self.song_id_prediction_output(self.filtered_list) 
+        self.song_id_predictions = self.song_id_prediction_output(self.filtered_list)
+        self.insert_user_predictions(),print("predicts inserted into db")
+             
 
     def get_user_song_id_source_genre(self):
         results = self.sp.current_user_saved_tracks()
@@ -103,9 +117,14 @@ class Sound_Drip:
                         filtered_list.append(output_song_index)
                     else:
                         continue
-        if len(set(filtered_list)) > song_list_length:
+        filtered_list = set(filtered_list)
+        stale_results = self.stale_results_list
+        list_length_before = len(filtered_list)
+        filtered_list = [index for index in filtered_list if index not in stale_results]
+        list_length_final = list_length_before - len(filtered_list) 
+        print(f'{list_length_final} stale tracks were removed for the user')
+        if len(filtered_list) > song_list_length:
             print("filter found at least 20 genre matches")
-            filtered_list = set(filtered_list)
             filtered_list = list(filtered_list)[0:20]
         else:
             counter = song_list_length - len(set(filtered_list))
@@ -133,7 +152,7 @@ class Sound_Drip:
             similar_songs.append({'similarity': [.99], 'values': song_id})
             song_id_list.append(song_id)
         song_result_output_dict = {"songs": similar_songs}
-        song_id_and_index_dict = {k:v for k,v in zip(song_id_list,filtered_list)}
+        song_id_and_index_dict = {song_id:song_index for song_id,song_index in zip(song_id_list,filtered_list)}
         print("Results returned")
         return song_result_output_dict,song_id_and_index_dict
 
@@ -143,68 +162,50 @@ class Sound_Drip:
               user=POSTGRES_USERNAME,
               password=POSTGRES_PASSWORD,
               port=POSTGRES_PORT)
-        return conn
-
-    def get_song_id_list(self,song_id_predictions):
-        song_list = []
-        for song in self.song_id_predictions["songs"]:
-            song_list.append(song["values"])
-        return song_list
-
-
-class Slider(Sound_Drip):
-
-    def __init__(self,slider_features):
-        self.slider_features = slider_features
-        self.slider_features_df = self.create_slider_feature_df(slider_features)
-        self.slider_results_list = self.get_slider_results(self.slider_features_df)[0][0:20]
-        self.slider_predictions = self.song_id_prediction_output(self.slider_results_list)
-
-    def create_slider_feature_df(self,slider_features):
-            df = pd.DataFrame.from_dict(json_normalize(self.slider_features["audio_features"]),orient='columns')   
-            df = df.reindex(sorted(df.columns), axis=1)
-            return df
+        cur = conn.cursor()
+        return conn,cur
+    
+    def get_user_ids(self):
+        current_user_dict = self.sp.current_user()
+        display_name = current_user_dict['display_name']
+        user_id = current_user_dict['id']
+        print("retrieving user id and display name for current token")
+        return user_id, display_name
+    
+    def insert_user_predictions(self):
+        try:
+            conn,cur = self.db_connect()
+            for song_id,song_index in self.song_id_predictions[1].items():
+                        cur.execute(
+        'INSERT INTO recommendations'
+        '(userid,songid,songlistindex,recdate)'
+        f' VALUES (\'{self.user_id}\',\'{song_id}\',\'{song_index}\',current_timestamp);')
+            conn.commit()
+            conn.close()
+        except ps.DatabaseError as e:
+            print(f'Error {e}')
+            sys.exit(1)
+        finally:
+            if conn:
+                conn.close()
         
-    def get_slider_results(self,song_features_df):
-        scaler = load("./models/scalar3.joblib")
-        print('Scaling data...')
-        data_scaled = scaler.transform(song_features_df)
-        normalizer = Normalizer()
-        data_normalized = normalizer.fit_transform(data_scaled)
-        print('Loading pickled model...')
-        model = load('./models/slider_model6.joblib')
-        results = model.kneighbors([data_normalized][0])[1:]
-        print('results returned')
-        return results[0]
-
-
-
-# class SoundDb(Sound_Drip):
-
-#     def __init__(self):
-#         self.conn = self.connect()
-#         self.cur = self.conn.cursor()
-#         self.song_id_predictions = self.song_id_predictions
-#         self.song_id_list = self.get_song_id_list(self.song_id_predictions)
-
-#     def connect(self):
-#         conn = ps.connect(host=POSTGRES_ADDRESS,
-#               database=POSTGRES_DBNAME,
-#               user=POSTGRES_USERNAME,
-#               password=POSTGRES_PASSWORD,
-#               port=POSTGRES_PORT)
-#         return conn
-
-    
-
-    
-
-#     def get_song_id_list(self,song_id_predictions):
-#         song_list = []
-#         for song in self.song_id_predictions["songs"]:
-#             song_list.append(song["values"])
-#         return song_list
-
-         
-
-    
+        
+    def get_stale_results(self):
+        try:
+            conn,cur = self.db_connect()
+            query = f'SELECT DISTINCT (songlistindex) FROM recommendations WHERE userid = \'{self.user_id}\';'
+            cur.execute(query)
+            query_results = cur.fetchall()
+            stale_results_list = [index[0] for index in query_results]
+        except ps.DatabaseError as e:
+            print(f'Error {e}')
+            sys.exit(1)
+        finally:
+            if conn:
+                conn.close()
+        return stale_results_list
+            
+        
+          
+            
+            
