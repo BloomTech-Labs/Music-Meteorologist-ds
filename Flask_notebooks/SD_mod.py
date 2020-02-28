@@ -25,6 +25,7 @@ class Sound_Drip:
         self.token = token
         self.sp = spotipy.Spotify(auth=self.token)
         self.user_id,self.display_name = self.get_user_ids()
+        self.stale_seed_list = self.get_stale_seed()
         self.stale_results_list = self.get_stale_results()
         self.song_id,self.source_genre = self.get_user_song_id_source_genre()
         self.acoustical_features = self.get_acoustical_features(self.song_id)
@@ -37,14 +38,31 @@ class Sound_Drip:
              
 
     def get_user_song_id_source_genre(self):
-        results = self.sp.current_user_saved_tracks()
-        genre = []
-        for song_number in range(0,19): 
+        stale_songs = self.stale_seed_list
+        print(stale_songs)
+        results = self.sp.current_user_saved_tracks(limit=50)
+        print(len(results['items']))
+        for song_number in range(0,len(results['items'])):
+            print(song_number)
             song_id = results['items'][song_number]['track']['id']
-            artist_id = self.get_artist_id(song_id)
-            genre = self.get_genres(artist_id)
-            if genre != []:
-                break
+            print(song_id)
+            if song_id not in stale_songs:
+                artist_id = self.get_artist_id(song_id)
+                print("artist_id:",artist_id)
+                genre = self.get_genres(artist_id)
+                if genre != []:
+                    print("the genre is:",genre)
+                    break
+                else:
+                    continue
+            else:
+                if song_number == len(results['items']) - 1:
+                    song_id = stale_songs[0]
+                    artist_id = self.get_artist_id(song_id)
+                    genre = self.get_genres(artist_id)
+                    print("the seed genre is:",genre,"artist id:",song_id)
+                    break 
+                   
         return song_id,genre
 
     def get_acoustical_features(self,song_id):
@@ -102,11 +120,17 @@ class Sound_Drip:
     
     def filter_model(self,model_results,source_genre_list): 
         #loop takes KNN results and filters by source track genres
+        print(source_genre_list)
         print("filter for genres initiated")
         genre_array = pickle.load(open("./data/genres_array_2.pkl","rb"))
         filtered_list = []
         song_list_length = 20
-        for output_song_index in model_results[0][1:]:
+        stale_results = self.stale_results_list
+        model_results_before = len(model_results[0][1:])
+        model_results = [index for index in model_results[0][1:] if index not in stale_results]
+        model_results_final = model_results_before - len(model_results)
+        print(f'{model_results_final} stale tracks were removed for the user')
+        for output_song_index in model_results:
             output_genre_list = genre_array[output_song_index]
             for output_genre in output_genre_list:
                 output_genre = output_genre.strip(" ")
@@ -117,27 +141,24 @@ class Sound_Drip:
                     else:
                         continue
         filtered_list = set(filtered_list)
-        stale_results = self.stale_results_list
-        list_length_before = len(filtered_list)
-        filtered_list = [index for index in filtered_list if index not in stale_results]
-        list_length_final = list_length_before - len(filtered_list) 
-        print(f'{list_length_final} stale tracks were removed for the user')
+        filtered_list = list(filtered_list)
         if len(filtered_list) > song_list_length:
             print("filter found at least 20 genre matches")
-            filtered_list = list(filtered_list)[0:20]
+            filtered_list = filtered_list[0:20]
         else:
-            counter = song_list_length - len(set(filtered_list))
-            print(len(set(filtered_list)))
-            print(counter)
+            counter = song_list_length - len(filtered_list)
+            print("length of filtered list:",len(filtered_list))
+#             print("counter:",counter)
             print(f'need to add {counter} items to final song output')
-            for output_song_index in model_results[1:]:
+            for output_song_index in model_results:
+#                 print(output_song_index)
                 if output_song_index not in filtered_list:
                     if counter > 0:
                         filtered_list.append(output_song_index)
                         counter -= 1
                     else:
                         break
-        print("filtered list with 20 unique song indices returned")
+        print(f"filtered list with {len(filtered_list)} unique song indices returned")
         return filtered_list
     
     def song_id_prediction_output(self,filtered_list): 
@@ -177,8 +198,8 @@ class Sound_Drip:
             for song_id,song_index in self.song_id_predictions[1].items():
                         cur.execute(
         'INSERT INTO recommendations'
-        '(userid,songid,songlistindex,recdate)'
-        f' VALUES (\'{self.user_id}\',\'{song_id}\',\'{song_index}\',current_timestamp);')
+        '(userid,songid,songlistindex,seedsongid,recdate)'
+        f' VALUES (\'{self.user_id}\',\'{song_id}\',\'{song_index}\',\'{self.song_id}\',current_timestamp);')
             conn.commit()
             conn.close()
         except ps.DatabaseError as e:
@@ -193,6 +214,21 @@ class Sound_Drip:
         try:
             conn,cur = self.db_connect()
             query = f'SELECT DISTINCT (songlistindex) FROM recommendations WHERE userid = \'{self.user_id}\';'
+            cur.execute(query)
+            query_results = cur.fetchall()
+            stale_results_list = [index[0] for index in query_results]
+        except ps.DatabaseError as e:
+            print(f'Error {e}')
+            sys.exit(1)
+        finally:
+            if conn:
+                conn.close()
+        return stale_results_list
+    
+    def get_stale_seed(self):
+        try:
+            conn,cur = self.db_connect()
+            query = f'SELECT DISTINCT (seedsongid) FROM recommendations WHERE userid = \'{self.user_id}\';'
             cur.execute(query)
             query_results = cur.fetchall()
             stale_results_list = [index[0] for index in query_results]

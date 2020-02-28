@@ -96,42 +96,46 @@ class Sound_Drip:
     
     def filter_model(self,model_results,source_genre_list): 
         #loop takes KNN results and filters by source track genres
+        print(source_genre_list)
         print("filter for genres initiated")
         genre_array = pickle.load(open("./data/genres_array_2.pkl","rb"))
         filtered_list = []
         song_list_length = 20
-        for output_song_index in model_results[0][1:]:
+        stale_results = self.stale_results_list
+        model_results_before = len(model_results[0][1:])
+        model_results = [index for index in model_results[0][1:] if index not in stale_results]
+        model_results_final = model_results_before - len(model_results)
+        print(f'{model_results_final} stale tracks were removed for the user')
+        for output_song_index in model_results:
             output_genre_list = genre_array[output_song_index]
             for output_genre in output_genre_list:
                 output_genre = output_genre.strip(" ")
                 for source_genre in source_genre_list:
                     source_genre = "'" + source_genre + "'"
                     if source_genre == output_genre:
+                        print(source_genre,output_genre)
                         filtered_list.append(output_song_index)
                     else:
                         continue
         filtered_list = set(filtered_list)
-        stale_results = self.stale_results_list
-        list_length_before = len(filtered_list)
-        filtered_list = [index for index in filtered_list if index not in stale_results]
-        list_length_final = list_length_before - len(filtered_list) 
-        print(f'{list_length_final} stale tracks were removed for the user')
+        filtered_list = list(filtered_list)
         if len(filtered_list) > song_list_length:
             print("filter found at least 20 genre matches")
-            filtered_list = list(filtered_list)[0:20]
+            filtered_list = filtered_list[0:20]
         else:
-            counter = song_list_length - len(set(filtered_list))
-            print(len(set(filtered_list)))
-            print(counter)
+            counter = song_list_length - len(filtered_list)
+            print("length of filtered list:",len(filtered_list))
+#             print("counter:",counter)
             print(f'need to add {counter} items to final song output')
-            for output_song_index in model_results[1:]:
+            for output_song_index in model_results:
+#                 print(output_song_index)
                 if output_song_index not in filtered_list:
                     if counter > 0:
                         filtered_list.append(output_song_index)
                         counter -= 1
                     else:
                         break
-        print("filtered list with 20 unique song indices returned")
+        print(f"filtered list with {len(filtered_list)} unique song indices returned")
         return filtered_list
     
     def song_id_prediction_output(self,filtered_list): 
