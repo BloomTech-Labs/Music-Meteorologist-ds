@@ -10,7 +10,7 @@ import numpy as np
 import psycopg2 as ps
 from misc.env_vars import *
 import sys
-
+from  more_itertools import unique_everseen
 
 
 class Sound_Drip:
@@ -19,6 +19,7 @@ class Sound_Drip:
         self.token = token
         self.sp = spotipy.Spotify(auth=self.token)
         self.user_id,self.display_name = self.get_user_ids()
+        self.stale_seed_list = self.get_stale_seed()
         self.stale_results_list = self.get_stale_results()
         self.song_id,self.source_genre = self.get_user_song_id_source_genre()
         self.acoustical_features = self.get_acoustical_features(self.song_id)
@@ -31,14 +32,31 @@ class Sound_Drip:
              
 
     def get_user_song_id_source_genre(self):
-        results = self.sp.current_user_saved_tracks()
-        genre = []
-        for song_number in range(0,19): 
+        stale_songs = self.stale_seed_list
+        results = self.sp.current_user_saved_tracks(limit=50)
+        for song_number in range(0,len(results['items'])):
+            print(song_number)
             song_id = results['items'][song_number]['track']['id']
-            artist_id = self.get_artist_id(song_id)
-            genre = self.get_genres(artist_id)
-            if genre != []:
-                break
+            print(song_id)
+            if song_id not in stale_songs:
+                artist_id = self.get_artist_id(song_id)
+                genre = self.get_genres(artist_id)
+                print(genre)
+                if genre != []:
+                    break
+                else:
+                    continue
+            else:
+                if song_number == len(results['items']) - 1:
+                    print("application out of fresh seeds")
+                    for song_id in stale_songs:
+                        artist_id = self.get_artist_id(song_id)
+                        genre = self.get_genres(artist_id)
+                        if genre != []:
+                            break
+                        else: 
+                            continue
+                   
         return song_id,genre
 
     def get_acoustical_features(self,song_id):
@@ -113,12 +131,10 @@ class Sound_Drip:
                 for source_genre in source_genre_list:
                     source_genre = "'" + source_genre + "'"
                     if source_genre == output_genre:
-                        print(source_genre,output_genre)
                         filtered_list.append(output_song_index)
                     else:
                         continue
-        filtered_list = set(filtered_list)
-        filtered_list = list(filtered_list)
+        filtered_list = list(unique_everseen(filtered_list))
         if len(filtered_list) > song_list_length:
             print("filter found at least 20 genre matches")
             filtered_list = filtered_list[0:20]
@@ -175,8 +191,8 @@ class Sound_Drip:
             for song_id,song_index in self.song_id_predictions[1].items():
                         cur.execute(
         'INSERT INTO recommendations'
-        '(userid,songid,songlistindex,recdate)'
-        f' VALUES (\'{self.user_id}\',\'{song_id}\',\'{song_index}\',current_timestamp);')
+        '(userid,songid,songlistindex,seedsongid,recdate)'
+        f' VALUES (\'{self.user_id}\',\'{song_id}\',\'{song_index}\',\'{self.song_id}\',current_timestamp);')
             conn.commit()
             conn.close()
         except ps.DatabaseError as e:
@@ -191,6 +207,21 @@ class Sound_Drip:
         try:
             conn,cur = self.db_connect()
             query = f'SELECT DISTINCT (songlistindex) FROM recommendations WHERE userid = \'{self.user_id}\';'
+            cur.execute(query)
+            query_results = cur.fetchall()
+            stale_results_list = [index[0] for index in query_results]
+        except ps.DatabaseError as e:
+            print(f'Error {e}')
+            sys.exit(1)
+        finally:
+            if conn:
+                conn.close()
+        return stale_results_list
+    
+    def get_stale_seed(self):
+        try:
+            conn,cur = self.db_connect()
+            query = f'SELECT DISTINCT (seedsongid) FROM recommendations WHERE userid = \'{self.user_id}\';'
             cur.execute(query)
             query_results = cur.fetchall()
             stale_results_list = [index[0] for index in query_results]

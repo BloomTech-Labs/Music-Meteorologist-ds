@@ -50,6 +50,7 @@ class Sound_Drip:
                 artist_id = self.get_artist_id(song_id)
                 print("artist_id:",artist_id)
                 genre = self.get_genres(artist_id)
+                print(genre)
                 if genre != []:
                     print("the genre is:",genre)
                     break
@@ -57,11 +58,14 @@ class Sound_Drip:
                     continue
             else:
                 if song_number == len(results['items']) - 1:
-                    song_id = stale_songs[0]
-                    artist_id = self.get_artist_id(song_id)
-                    genre = self.get_genres(artist_id)
-                    print("the seed genre is:",genre,"artist id:",song_id)
-                    break 
+                    for song_id in stale_songs:
+                        artist_id = self.get_artist_id(song_id)
+                        genre = self.get_genres(artist_id)
+                        if genre != []:
+                            print("the genre is:",genre)
+                            break
+                        else: 
+                            continue
                    
         return song_id,genre
 
