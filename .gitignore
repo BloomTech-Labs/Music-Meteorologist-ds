@@ -139,3 +139,14 @@ Flask_AWS/SOUNDDRIP/models/model5.joblib
 Flask_AWS/SOUNDDRIP/data/song_id_array3.pkl
 Flask_AWS/SOUNDDRIP/data/genres_array_2.pkl
 data_exploration/genre_encoding_ideas.ipynb
+Flask_notebooks/models/slider_model6.joblib
+Flask_notebooks/models/scalar3.joblib
+Flask_notebooks/models/model5.joblib
+Flask_notebooks/data/song_id_array3.pkl
+Flask_notebooks/data/genres_array_2.pkl
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022820_v2.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022820_v1.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022720_v3.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022720_v2.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022720.zip
+Flask_AWS/SOUNDDRIP/flask_app.zip
