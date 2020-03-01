@@ -1,16 +1,22 @@
+import psycopg2 as ps
+from env_vars import *
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy.util as util
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler, Normalizer
 import pandas as pd
 from pandas.io.json import json_normalize
-from joblib import load, dump
+from flask import jsonify
+from joblib import load
 import pickle
 import numpy as np
-import psycopg2 as ps
-from misc.env_vars import *
+from flask import request
+from joblib import dump
+from joblib import load
+import pandas as pd
+from importlib import reload
 import sys
-from  more_itertools import unique_everseen
+from env_vars import * 
 
 
 class Sound_Drip:
@@ -33,26 +39,30 @@ class Sound_Drip:
 
     def get_user_song_id_source_genre(self):
         stale_songs = self.stale_seed_list
+        print(stale_songs)
         results = self.sp.current_user_saved_tracks(limit=50)
+        print(len(results['items']))
         for song_number in range(0,len(results['items'])):
             print(song_number)
             song_id = results['items'][song_number]['track']['id']
             print(song_id)
             if song_id not in stale_songs:
                 artist_id = self.get_artist_id(song_id)
+                print("artist_id:",artist_id)
                 genre = self.get_genres(artist_id)
                 print(genre)
                 if genre != []:
+                    print("the genre is:",genre)
                     break
                 else:
                     continue
             else:
                 if song_number == len(results['items']) - 1:
-                    print("application out of fresh seeds")
                     for song_id in stale_songs:
                         artist_id = self.get_artist_id(song_id)
                         genre = self.get_genres(artist_id)
                         if genre != []:
+                            print("the genre is:",genre)
                             break
                         else: 
                             continue
@@ -134,7 +144,8 @@ class Sound_Drip:
                         filtered_list.append(output_song_index)
                     else:
                         continue
-        filtered_list = list(unique_everseen(filtered_list))
+        filtered_list = set(filtered_list)
+        filtered_list = list(filtered_list)
         if len(filtered_list) > song_list_length:
             print("filter found at least 20 genre matches")
             filtered_list = filtered_list[0:20]
@@ -232,29 +243,8 @@ class Sound_Drip:
             if conn:
                 conn.close()
         return stale_results_list
-
-
-class Slider(Sound_Drip):
-
-    def __init__(self,slider_features):
-        self.slider_features = slider_features
-        self.slider_features_df = self.create_slider_feature_df(slider_features)
-        self.slider_results_list = self.get_slider_results(self.slider_features_df)[0][0:20]
-        self.slider_predictions = self.song_id_prediction_output(self.slider_results_list)
-
-    def create_slider_feature_df(self,slider_features):
-            df = pd.DataFrame.from_dict(json_normalize(self.slider_features["audio_features"]),orient='columns')   
-            df = df.reindex(sorted(df.columns), axis=1)
-            return df
+            
         
-    def get_slider_results(self,song_features_df):
-        scaler = load("./models/scalar3.joblib")
-        print('Scaling data...')
-        data_scaled = scaler.transform(song_features_df)
-        normalizer = Normalizer()
-        data_normalized = normalizer.fit_transform(data_scaled)
-        print('Loading pickled model...')
-        model = load('./models/slider_model6.joblib')
-        results = model.kneighbors([data_normalized][0])[1:]
-        print('results returned')
-        return results[0]
+          
+            
+            
