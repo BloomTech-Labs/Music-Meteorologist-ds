@@ -1,5 +1,5 @@
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
+# from spotipy.oauth2 import SpotifyClientCredentials
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler, Normalizer
 import pandas as pd
