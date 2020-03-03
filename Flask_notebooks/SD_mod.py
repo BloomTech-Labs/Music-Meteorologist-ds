@@ -38,27 +38,29 @@ class Sound_Drip:
              
 
     def get_user_song_id_source_genre(self):
-        stale_songs = self.stale_seed_list
+        stale_songs = [stale_song for stale_song in self.stale_seed_list if stale_song]
         print(stale_songs)
         results = self.sp.current_user_saved_tracks(limit=50)
         print(len(results['items']))
         for song_number in range(0,len(results['items'])):
-            print(song_number)
+            print("song number:",song_number)
             song_id = results['items'][song_number]['track']['id']
             print(song_id)
             if song_id not in stale_songs:
                 artist_id = self.get_artist_id(song_id)
                 print("artist_id:",artist_id)
                 genre = self.get_genres(artist_id)
-                print(genre)
+                print("genre:",genre)
                 if genre != []:
                     print("the genre is:",genre)
                     break
                 else:
                     continue
             else:
+                print("not enough songs found")
                 if song_number == len(results['items']) - 1:
                     for song_id in stale_songs:
+                        print(song_id)
                         artist_id = self.get_artist_id(song_id)
                         genre = self.get_genres(artist_id)
                         if genre != []:
