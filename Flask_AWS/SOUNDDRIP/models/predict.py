@@ -351,12 +351,9 @@ class Sound_Drip:
         return stale_results_list
 
     def get_stale_seed(self):
-        '''
-        Retrieving the tracks that have been used as seeds for the specific user
-        '''
         try:
-            conn, cur = self.db_connect()
-            query = f'SELECT DISTINCT (seedsongid) FROM recommendations WHERE userid = \'{self.user_id}\';'
+            conn,cur = self.db_connect()
+            query = f'SELECT DISTINCT (seedsongid) FROM recommendations WHERE userid = \'{self.user_id}\' AND seedsongid is not null;'
             cur.execute(query)
             query_results = cur.fetchall()
             stale_results_list = [index[0] for index in query_results]

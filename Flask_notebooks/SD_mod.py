@@ -38,7 +38,7 @@ class Sound_Drip:
              
 
     def get_user_song_id_source_genre(self):
-        stale_songs = [stale_song for stale_song in self.stale_seed_list if stale_song]
+        stale_songs = self.stale_seed_list
         print(stale_songs)
         results = self.sp.current_user_saved_tracks(limit=50)
         print(len(results['items']))
@@ -234,7 +234,7 @@ class Sound_Drip:
     def get_stale_seed(self):
         try:
             conn,cur = self.db_connect()
-            query = f'SELECT DISTINCT (seedsongid) FROM recommendations WHERE userid = \'{self.user_id}\';'
+            query = f'SELECT DISTINCT (seedsongid) FROM recommendations WHERE userid = \'{self.user_id}\' AND seedsongid is not null;'
             cur.execute(query)
             query_results = cur.fetchall()
             stale_results_list = [index[0] for index in query_results]
