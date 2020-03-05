@@ -93,6 +93,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+spotipy/spotipy_test/
 
 # Spyder project settings
 .spyderproject
@@ -163,3 +164,36 @@ _archive_Flask__Heroku/SOUNDDRIP/models/scalar2.joblib
 _archive_Flask__Heroku/SOUNDDRIP/models/model2.joblib
 _archive_Flask__Heroku/SOUNDDRIP/data/song_id_list2.pkl
 _archive_Flask__Heroku/SOUNDDRIP/data/song_id_list2.joblib
+model_notebooks/data/song_id_array3.pkl
+model_notebooks/data/song_list_v4_hashed(1).pkl
+model_notebooks/model3.joblib
+model_notebooks/data/model3.joblib
+model_notebooks/data/genres_array.pkl
+model_notebooks/data/genres_array_2.pkl
+*.pkl
+Flask_notebooks/models/model4.joblib
+Flask_notebooks/models/scalar2-Copy1.joblib
+Flask_notebooks/models/scalar2.joblib
+model_notebooks/data/model4.joblib
+model_notebooks/data/model5.joblib
+*.joblib
+Flask_notebooks/data/song_id_list2(1).joblib
+Flask_notebooks/models/scalar2-Copy1.joblib
+Flask_notebooks/env_vars.py
+Flask_notebooks/models/model2.joblib
+model_notebooks/knn_model_v1.ipynb
+model_notebooks/knn_model_v3_with_genre_filtering.ipynb
+Flask_AWS/SOUNDDRIP/flask_app.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app/test.py
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app/requirements.txt
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app/models/predict.py
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app/misc/robots.txt
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app/application.py
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app/.ebextensions/SounddripDev-env.config
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022720.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022720_v2.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022720_v3.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022820_v1.zip
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022820_v2.zip
+model_notebooks/model2.joblib
+Flask_AWS/SOUNDDRIP/zip_for_aws_sample/flask_app022920_v1.zip
