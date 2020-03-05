@@ -11,30 +11,12 @@ There's a lot going on here, so we'll let you know where things are.
 - RDS-postgres/SOUNDDRIP is our sandbox for testing out new updates to our RDS-hosted postgreSQL tables
 - Flask_AWS/SOUNDDRIP is our production flask app
 
-***INPUT_ACTUAL***
+More information can be found on our notion doc: https://www.notion.so/For-Current-DS-145f105cd7a1459bbc955a97624ecc60
 
-```json
+***API INPUTS/OUTPUTS***
+Root endpoints utilized on local flask deployments
+  - Root are the local APIs
+**SD DS Prod refers to the main one being consumed by the application**
 
-{"token":"BQCEhCfQoAEwvw7muBWJ4fQmCKmB37d0a0PRzFPGNHxXQjiW9YWECFFKXDYSrJ_Id_fKtA9rKnOUZJmrancJzmlxDPGBCzhQWNZ9sQK6FNfIlCyy81UVqUiWUT-2rOXkskvZXgjkqwamQMZ0Eu-3FbKxfOdxw"}
-
-```
-
-***OUTPUT***
-```json
-{
-  "songs": [
-    {
-      "similarity": [
-        0.9999733801267939
-      ],
-      "values": "6rMRZ9DtxJhH1Ycbk6VeDi"
-    },
-    {
-      "similarity": [
-        0.9999691841226913
-      ],
-      "values": "6cgoS3EosBd9MZOK8Z6KOV"
-    }
-  ]
-}
-```
+Information regarding the API calls made between front-end and DS can be found here:
+https://documenter.getpostman.com/view/10161796/SzRuYroD?version=latest#intro
