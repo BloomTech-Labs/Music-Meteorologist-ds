@@ -1,6 +1,7 @@
-POST https://music-meteorologist-ds.herokuapp.com/
+Production site: https://www.sound-drip.com/
 
-updating machine learning branch
+How it works
+
 
 ***INPUT_ACTUAL***
 
