@@ -13,6 +13,10 @@ ipykernel = "*"
 flask = "*"
 gunicorn = "*"
 heroku3 = "*"
+matplotlib = "*"
+seaborn = "*"
+spotipy = "*"
+pool = "*"
 
 [requires]
 python_version = "3.7"
