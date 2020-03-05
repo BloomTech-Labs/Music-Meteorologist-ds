@@ -14,6 +14,8 @@ There's a lot going on here, so we'll let you know where things are.
 More information can be found on our notion doc: https://www.notion.so/For-Current-DS-145f105cd7a1459bbc955a97624ecc60
 
 ***API INPUTS/OUTPUTS***
+
+
 Root endpoints utilized on local flask deployments
 - Root are the local APIs
 - **SD DS Prod refers to the main one being consumed by the application**
