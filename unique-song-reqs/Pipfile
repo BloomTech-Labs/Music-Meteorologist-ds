@@ -10,6 +10,8 @@ psycopg2 = "*"
 pandas = "*"
 ipykernel = "*"
 spotipy = "*"
+scikit-learn = "*"
+flask = "*"
 
 [requires]
 python_version = "3.7"
