@@ -10,6 +10,8 @@ pandas = "*"
 ipykernel = "*"
 spotipy = "*"
 sqlalchemy = "*"
+boto3 = "*"
+sagemaker = "*"
 
 [requires]
 python_version = "3.7"
