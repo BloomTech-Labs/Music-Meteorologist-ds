@@ -7,9 +7,7 @@ How it works
 
 ```json
 
-{
-    "token": "BQCEhCfQoAEwvw7muBWJ4fQmCKmB37d0a0PRz-FPGNHxXQjiW9YWECFFKXDYSrJ_Id_fKtA9rKnOUZJmrancJzmlxDPGBCzhQWNZ9sQK6FNfIlCyy81UVqUiWUT-2rOXkskvZXgjkqwamQMZ0Eu-3FbKxfOdxw"
- }
+{"token":"BQCEhCfQoAEwvw7muBWJ4fQmCKmB37d0a0PRzFPGNHxXQjiW9YWECFFKXDYSrJ_Id_fKtA9rKnOUZJmrancJzmlxDPGBCzhQWNZ9sQK6FNfIlCyy81UVqUiWUT-2rOXkskvZXgjkqwamQMZ0Eu-3FbKxfOdxw"}
 
 ```
 
