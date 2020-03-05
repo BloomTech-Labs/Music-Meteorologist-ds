@@ -82,6 +82,9 @@ target/
 # celery beat schedule file
 celerybeat-schedule
 
+# Testing Data
+model_notebooks/svm_model/DF_genres_hashed.pkl
+
 # SageMath parsed files
 *.sage.py
 
