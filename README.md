@@ -66,11 +66,13 @@ https://s3.console.aws.amazon.com/s3/buckets/sound-drip/Flask-Prod-Files/?region
 
 8. Place `song_id_array3.pkl` in a new `data` folder after creating it under the `SOUNDDRIP` directory
 
+9. Create `env_vars.py` with the necessary database credentials under `./misc/` 
+
 
 9. Run the application
 
 ```
-python3 application.py
+python3 application.py 
 ```
 
 * NOTE: If you get an error that a particular package is missing even though you have confirmed it is installed, you will need to `pip install` those packages utilizing an optional `target` argument:
