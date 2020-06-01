@@ -20,4 +20,4 @@ six==1.14.0
 sklearn==0.0
 spotipy==2.7.1
 urllib3==1.25.8
-Werkzeug==0.15.0
+Werkzeug==0.15.3
