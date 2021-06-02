@@ -19,6 +19,6 @@ scipy==1.4.1
 six==1.14.0
 sklearn==0.0
 spotipy==2.7.1
-urllib3==1.25.8
+urllib3==1.26.5
 uWSGI==2.0.18
 Werkzeug==0.15.0
